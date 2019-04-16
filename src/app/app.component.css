@@ -1,0 +1,53 @@
+.navbar-dark{
+  background-color: #1E1F26;
+}
+
+.navbar {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  min-height: 80px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  z-index: 1;
+}
+main {
+  background-color: #483D8B;
+}
+.sidebar-sticky, .sidebar , .row{
+  background-color: #483D8B!important;
+}
+.bg-dark {
+  background-color: #1E1F26!important;
+}
+.navbar-brand{
+  font-size: 25px;
+}
+.sidebar {
+  text-align: center;
+}
+sub {
+  color:#6786AD;
+  font-size: 10px;
+  font-style: italic;
+}
+.my-auto {
+  margin-bottom: auto!important;
+  margin-top: auto!important;
+}
+/*!
+ * Start Bootstrap - Simple Sidebar (https://startbootstrap.com/template-overviews/simple-sidebar)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-simple-sidebar/blob/master/LICENSE)
+ */
+.row, .container-fluid{
+  height: 91%!important;
+}
+.my-icons {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 3rem;
+  color: white;
+  margin-top: 1rem;
+}
+footer {
+  background-color: #483D8B!important;
+}
