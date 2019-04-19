@@ -1,0 +1,40 @@
+<div class="scalc">
+  <p>Simple calculator <sup class="text-white">
+    <button mat-icon-button (click)="openSimpleDialog()">
+      <fa-icon [icon]="infoCircle"></fa-icon>
+    </button>
+  </sup>
+  </p>
+  <form (ngSubmit)="onSubmitSimple()" #fs="ngForm">
+    <mat-form-field class="my-input" >
+      <input type="text" matInput   ngModel name="simpleExp" required #simpleExp="ngModel">
+      <mat-error *ngIf="simpleExp.hasError('required')">Fill expression</mat-error>
+    </mat-form-field>
+    <button class="ml-3" type="submit" mat-icon-button color="accent" [disabled]="fs.invalid">
+      <mat-icon>send</mat-icon>
+    </button>
+  </form>
+  <p class="text-white">Result: {{simpleResult}}</p>
+  <br/>
+  <hr/>
+
+  <form (ngSubmit)="onSubmitCustom()" #fc="ngForm">
+    <p class="mt-5"> Custom calculator <sup class="text-white">
+      <button mat-icon-button (click)="openCustomDialog()">
+        <fa-icon [icon]="infoCircle"></fa-icon>
+      </button>
+    </sup>
+    </p>
+    <mat-form-field class="my-input">
+      <input type="text" matInput   ngModel name="customExp" required #customExp="ngModel">
+      <mat-error *ngIf="customExp.hasError('required')">Fill expression</mat-error>
+    </mat-form-field>
+    <button class="ml-3" type="submit" mat-icon-button color="accent" [disabled]="fc.invalid">
+      <mat-icon>send</mat-icon>
+    </button>
+  </form>
+  <p class="text-white">Result: {{customResult}}</p>
+  <br/>
+  <hr/>
+</div>
+

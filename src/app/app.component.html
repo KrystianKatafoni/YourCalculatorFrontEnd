@@ -1,47 +1,53 @@
 <nav class="navbar navbar-dark">
   <a class="navbar-brand" href="#">
-    <span> <fa-icon [icon]="square"></fa-icon> Your Calculator <sub> by Krystian Katafoni</sub> </span>
+    <span> <fa-icon [icon]="square"></fa-icon> Your Calculator <sub> share it now</sub> </span>
   </a>
 </nav>
 <div class="container-fluid">
   <div class="row row-special">
-    <nav class="col-md-2 sidebar my-auto">
-      <div class="sidebar-sticky">
-        <ul class="nav flex-column">
+    <nav class="col-md-1 sidebar my-auto">
+      <div class="sidebar-sticky my-sm-center">
+        <ul class="nav flex-md-column flex-sm-row ">
           <li class="nav-item my-icons">
-            <fa-icon [icon]="home"></fa-icon>
+            <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <fa-icon [icon]="home"></fa-icon>
+            </a>
+          </li>
+          <li class="nav-item my-icons" >
+            <a routerLink="/calculator" routerLinkActive="active">
+              <fa-icon [icon]="calculator"></fa-icon>
+            </a>
+          </li>
+          <li class="nav-item my-icons" >
+            <a routerLink="/search" routerLinkActive="active">
+              <fa-icon [icon]="search" ></fa-icon>
+            </a>
+          </li>
+          <li class="nav-item my-icons" >
+            <a routerLink="/info" routerLinkActive="active">
+              <fa-icon [icon]="info"></fa-icon>
+            </a>
           </li>
           <li class="nav-item my-icons">
-            <fa-icon [icon]="calculator"></fa-icon>
+            <a routerLink="/contact"  routerLinkActive="active">
+              <fa-icon [icon]="envelope"></fa-icon>
+            </a>
           </li>
-          <li class="nav-item my-icons">
-            <fa-icon [icon]="search"></fa-icon>
-          </li>
-          <li class="nav-item my-icons">
-            <fa-icon [icon]="info"></fa-icon>
-          </li>
-          <li class="nav-item my-icons">
-            <fa-icon [icon]="envelope"></fa-icon>
-          </li>
-
         </ul>
-
       </div>
     </nav>
-
-
-    <main role="main" class="col-md-2 ml-sm-auto col-lg-10 ">
+    <main role="main" class="col-md-10 ml-sm-auto col-lg-10 ">
       <div class="row row-spec-full-height">
-        <div class="col text-center main-container-pos">
-          <button class="btn btn-primary ">Kliknij mnie</button>
+        <div class="col">
+          <router-outlet></router-outlet>
         </div>
-
+        <div class = "col-md-3 ml-sm-auto col-lg-3 fast-sidebar">
+          <app-fast-calculations></app-fast-calculations>
+        </div>
       </div>
     </main>
-
   </div>
 </div>
-
 <footer class="navbar fixed-bottom navbar-light bg-faded ">
   <span class="navbar-brand text-white-50">Made with <fa-icon [icon]="heart"></fa-icon> for  <fa-icon
     [icon]="rocket"></fa-icon></span>
