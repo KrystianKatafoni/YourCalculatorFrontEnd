@@ -1,48 +1,50 @@
+<nav class="navbar navbar-dark">
+  <a class="navbar-brand" href="#">
+    <span> <fa-icon [icon]="square"></fa-icon> Your Calculator <sub> by Krystian Katafoni</sub> </span>
+  </a>
+</nav>
+<div class="container-fluid">
+  <div class="row row-special">
+    <nav class="col-md-2 sidebar my-auto">
+      <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item my-icons">
+            <fa-icon [icon]="home"></fa-icon>
+          </li>
+          <li class="nav-item my-icons">
+            <fa-icon [icon]="calculator"></fa-icon>
+          </li>
+          <li class="nav-item my-icons">
+            <fa-icon [icon]="search"></fa-icon>
+          </li>
+          <li class="nav-item my-icons">
+            <fa-icon [icon]="info"></fa-icon>
+          </li>
+          <li class="nav-item my-icons">
+            <fa-icon [icon]="envelope"></fa-icon>
+          </li>
 
-    <nav class="navbar navbar-dark">
-      <a class="navbar-brand" href="#">
-        <span> <fa-icon [icon]="square"></fa-icon> Your Calculator <sub> by Krystian Katafoni</sub> </span>
-      </a>
-    </nav>
-    <div class="container-fluid ">
-      <div class="row">
-
-        <nav class="col-md-1 sidebar my-auto">
-          <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-              <li class="nav-item my-icons">
-                <fa-icon [icon]="home"></fa-icon>
-              </li>
-              <li class="nav-item my-icons">
-                <fa-icon [icon]="calculator"></fa-icon>
-              </li>
-              <li class="nav-item my-icons">
-                <fa-icon [icon]="search"></fa-icon>
-              </li>
-              <li class="nav-item my-icons">
-                <fa-icon [icon]="info"></fa-icon>
-              </li>
-              <li class="nav-item my-icons">
-                <fa-icon [icon]="envelope"></fa-icon>
-              </li>
-
-            </ul>
-
-          </div>
-        </nav>
-
-
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 ">
-          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3   ">
-
-          </div>
-        </main>
+        </ul>
 
       </div>
-    </div>
+    </nav>
+
+
+    <main role="main" class="col-md-2 ml-sm-auto col-lg-10 ">
+      <div class="row row-spec-full-height">
+        <div class="col text-center main-container-pos">
+          <button class="btn btn-primary ">Kliknij mnie</button>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+</div>
 
 <footer class="navbar fixed-bottom navbar-light bg-faded ">
-  <span class="navbar-brand text-black-50">Made with <fa-icon [icon]="heart"></fa-icon> for  <fa-icon [icon]="rocket"></fa-icon></span>
-  <span class="navbar-text text-white-50" ><fa-icon [icon]="copyright"></fa-icon> Krystian Katafoni </span>
+  <span class="navbar-brand text-white-50">Made with <fa-icon [icon]="heart"></fa-icon> for  <fa-icon
+    [icon]="rocket"></fa-icon></span>
+  <span class="navbar-text text-white-50"><fa-icon [icon]="copyright"></fa-icon> Krystian Katafoni, 2019</span>
 </footer>
 

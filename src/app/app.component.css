@@ -38,13 +38,19 @@ sub {
  * Copyright 2013-2019 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-simple-sidebar/blob/master/LICENSE)
  */
-.row, .container-fluid{
+.row-special, .container-fluid{
   height: 91%!important;
+}
+.row-spec-full-height {
+  height: 100%!important;
+}
+.main-container-pos{
+  margin-top: 15%!important;
 }
 .my-icons {
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
-  font-size: 3rem;
+  font-size: 2rem;
   color: white;
   margin-top: 1rem;
 }

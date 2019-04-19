@@ -10,7 +10,7 @@ import {faEnvelope} from '@fortawesome/free-solid-svg-icons';
 import {faCopyright} from '@fortawesome/free-solid-svg-icons';
 import {faHeart} from '@fortawesome/free-solid-svg-icons';
 import {faRocket} from '@fortawesome/free-solid-svg-icons/faRocket';
-import {faInfinity} from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   selector: 'app-root',
@@ -27,7 +27,7 @@ export class AppComponent {
   copyright = faCopyright;
   heart = faHeart;
   rocket = faRocket;
-  infinity = faInfinity;
+
   title = 'YourCalculatorFrontEnd';
 
   constructor(private httpClient: HttpClient) {
