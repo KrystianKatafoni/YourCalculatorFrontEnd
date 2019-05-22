@@ -30,8 +30,9 @@ export class FastCalculatorComponent implements OnInit {
   ngOnInit() {
   }
   onSubmitSimple() {
-    console.log(this.signupFormSimple);
     this.expressionSimple = this.signupFormSimple.value.simpleExp;
+    this.fastCalculatorService.sendExpToServer(this.expressionSimple).subscribe( (data: number) => {this.simpleResult = data; });
+    console.log(this.signupFormSimple);
     const mess = 'Expression: ' + this.expressionSimple;
     this.snackBar.open('Simple calculator', mess, {duration: 2000, panelClass: 'snackbar-class'});
   }

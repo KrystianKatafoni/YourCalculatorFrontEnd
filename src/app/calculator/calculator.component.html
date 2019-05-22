@@ -1,3 +1,42 @@
-<p>
-  calculator works!
-</p>
+<div class="row main-div">
+  <div class="col">
+    <mat-card >
+      <mat-card-header >
+        <mat-card-title>
+          <h2><fa-icon class="mr-3" [icon]="calculator"></fa-icon>Calculator section</h2>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-tab-group dynamicHeight="true" mat-align-tabs="left" animationDuration="500ms">
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span><fa-icon class="mr-1" [icon]="plus"></fa-icon>
+              Add calculator</span>
+            </ng-template>
+            <div>
+              heja
+            </div>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span><fa-icon class="mr-1" [icon]="edit"></fa-icon>
+              Manage calculators</span>
+            </ng-template>
+            <div>
+              heja
+            </div>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span><fa-icon class="mr-1" [icon]="circle"></fa-icon>
+              Calculator info</span>
+            </ng-template>
+            <div>
+              heja
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
