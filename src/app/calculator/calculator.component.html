@@ -1,5 +1,5 @@
-<div class="row main-div">
-  <div class="col">
+<div class="row main-div" style="min-height: 500px">
+  <div class="col" style="min-height: 500px">
     <mat-card >
       <mat-card-header >
         <mat-card-title>
@@ -14,7 +14,8 @@
               Add calculator</span>
             </ng-template>
             <div>
-              heja
+              <br/>
+              <app-add-calculator></app-add-calculator>
             </div>
           </mat-tab>
           <mat-tab>
@@ -23,16 +24,16 @@
               Manage calculators</span>
             </ng-template>
             <div>
-              heja
+              <app-manage-calculator></app-manage-calculator>
             </div>
           </mat-tab>
           <mat-tab>
             <ng-template mat-tab-label>
               <span><fa-icon class="mr-1" [icon]="circle"></fa-icon>
-              Calculator info</span>
+              Help</span>
             </ng-template>
             <div>
-              heja
+              <app-info-calculator></app-info-calculator>
             </div>
           </mat-tab>
         </mat-tab-group>

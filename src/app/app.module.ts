@@ -14,13 +14,15 @@ import { HomeComponent } from './home/home.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SearchComponent } from './search/search.component';
-import {FlexLayoutModule} from '@angular/flex-layout';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { FastCalculationsComponent } from './fast-calculations/fast-calculations.component';
 import { FastCalculatorComponent } from './fast-calculations/fast-calculator/fast-calculator.component';
 import { FastEquationsComponent } from './fast-calculations/fast-equations/fast-equations.component';
 import { SimpleDialogComponent } from './fast-calculations/fast-calculator/simple-dialog/simple-dialog.component';
 import { CustomDialogComponent } from './fast-calculations/fast-calculator/custom-dialog/custom-dialog.component';
+import { AddCalculatorComponent } from './calculator/add-calculator/add-calculator.component';
+import { ManageCalculatorComponent } from './calculator/manage-calculator/manage-calculator.component';
+import { InfoCalculatorComponent } from './calculator/info-calculator/info-calculator.component';
 
 
 
@@ -39,6 +41,10 @@ import { CustomDialogComponent } from './fast-calculations/fast-calculator/custo
     FastEquationsComponent,
     SimpleDialogComponent,
     CustomDialogComponent,
+    AddCalculatorComponent,
+    ManageCalculatorComponent,
+    InfoCalculatorComponent,
+
   ],
   entryComponents: [
     SimpleDialogComponent,
@@ -52,6 +58,7 @@ import { CustomDialogComponent } from './fast-calculations/fast-calculator/custo
     BrowserAnimationsModule,
     MaterialModule,
     AppRoutingModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
