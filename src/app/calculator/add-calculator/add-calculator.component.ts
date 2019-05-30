@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-add-calculator',
@@ -9,16 +9,42 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 export class AddCalculatorComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) { }
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
+  inputsForm: FormGroup;
+  informationForm: FormGroup;
+  outputForm: FormGroup;
+  mathForm: FormGroup;
+
+  inputs: FormArray;
   ngOnInit() {
-    this.firstFormGroup = this.formBuilder.group({
-      firstCtrl: ['', Validators.required],
-      thirdCtrl: ['', Validators.required]
+    this.inputsForm = this.formBuilder.group({
+      inputs: this.formBuilder.array([this.createItem()])
     });
-    this.secondFormGroup = this.formBuilder.group({
-      secondCtrl: ['', Validators.required]
+    this.informationForm = this.formBuilder.group({
+      calcName: ['', Validators.required],
+      calcDesc: ['', Validators.required]
+    });
+    this.outputForm = this.formBuilder.group({
+      symbol: ['', Validators.required],
+      description: ['', Validators.required],
+      unit: ['', Validators.required]
+    });
+    this.mathForm = this.formBuilder.group({
+      exp: ['', Validators.required]
     });
   }
-
+  createItem(): FormGroup {
+    return this.formBuilder.group({
+      symbol: [''],
+      description: '',
+      unit: ['']
+    });
+  }
+  addItem(): void {
+    this.inputs = this.inputsForm.get('inputs') as FormArray;
+    this.inputs.push(this.createItem());
+  }
+  removeLastItem(): void {
+    this.inputs = this.inputsForm.get('inputs') as FormArray;
+    this.inputs.removeAt(this.inputs.length - 1);
+  }
 }

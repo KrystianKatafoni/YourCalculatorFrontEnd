@@ -83,3 +83,9 @@ a {
   box-shadow: 0 0px 5px 0px rgba(0,0,0,0.5);
   color: white;
 }
+.bottom-column
+{
+  float: none;
+  display: table-cell;
+  vertical-align: top;
+}

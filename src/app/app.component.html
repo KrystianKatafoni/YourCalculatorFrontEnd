@@ -2,23 +2,11 @@
   <a class="navbar-brand" href="#">
     <span> <fa-icon [icon]="square"></fa-icon> Your Calculator <sub> share it now</sub> </span>
   </a>
-  <ul class="nav justify-content-end">
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/" >
-        Log In
-      </a>
-    </li >
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/signup" >
-        Signup
-      </a>
-    </li>
-  </ul>
 </nav>
-<div class="container-fluid">
+<div class="container-fluid ">
   <div class="row row-special">
     <nav class="col-md-1 sidebar my-auto">
-      <div class="sidebar-sticky my-sm-center">
+      <div class="sidebar-sticky my-sm-center ">
         <ul class="nav flex-md-column flex-sm-row ">
           <li class="nav-item my-icons">
             <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
@@ -48,16 +36,11 @@
         </ul>
       </div>
     </nav>
-    <main role="main" class="col-md-10 ml-sm-auto col-lg-10 ">
-      <div class="row">
-        <div class="col">
+    <div class="col-md-1 col-lg-1"></div>
+    <main role="main" class="col-md-8 col-lg-8 bottom-column">
           <router-outlet></router-outlet>
-        </div>
-        <div class = "col-md-3 ml-sm-auto col-lg-3 fast-sidebar">
-          <app-fast-calculations></app-fast-calculations>
-        </div>
-      </div>
     </main>
+    <div class="col-md-1 col-lg-1"></div>
   </div>
 </div>
 <footer class="navbar fixed-bottom navbar-light bg-faded ">
