@@ -17,7 +17,7 @@ export class AddCalculatorComponent implements OnInit {
   inputs: FormArray;
   ngOnInit() {
     this.inputsForm = this.formBuilder.group({
-      inputs: this.formBuilder.array([this.createItem()])
+      inputs: this.formBuilder.array([this.createItem()], Validators.required)
     });
     this.informationForm = this.formBuilder.group({
       calcName: ['', Validators.required],

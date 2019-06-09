@@ -1,21 +1,27 @@
 <div class="main-background">
-  <mat-horizontal-stepper class="main-background" #stepper>
+  <mat-horizontal-stepper class="main-background" linear="true" #stepper >
 
-    <mat-step [stepControl]="informationForm">
+    <mat-step [stepControl]="informationForm" >
       <form [formGroup]="informationForm">
         <ng-template matStepLabel>Information</ng-template>
         <div class="row mt-3">
           <div class="col">
             <div>
               <mat-form-field>
-                <input matInput placeholder="Calculator name" formControlName="calcName" required>
+                <input id="calcName" matInput placeholder="Calculator name" formControlName="calcName" required>
+
               </mat-form-field>
+              <div *ngIf="informationForm.get('calcName').invalid && (informationForm.get('calcName').dirty || informationForm.get('calcName').touched)">
+                <div *ngIf="informationForm.get('calcName').errors.required" class="alert alert-danger">
+                  Name is required.
+                </div>
+              </div>
             </div>
             <div class="mt-2">
               <mat-form-field>
                 <textarea matInput placeholder="Description" formControlName="calcDesc" required cdkTextareaAutosize
                           #autosize="cdkTextareaAutosize"
-                          cdkAutosizeMinRows="3"
+                          cdkAutosizeMinRows="2"
                           cdkAutosizeMaxRows="5"></textarea>
               </mat-form-field>
             </div>
@@ -45,7 +51,6 @@
                 <input matInput formControlName="unit" placeholder="Unit" required>
                   </mat-form-field>
               </div>
-
             </div>
             <div>
               <button mat-icon-button (click)="addItem()">
@@ -58,23 +63,26 @@
         </div>
         </div>
         <div style="text-align: right">
+          <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </div>
       </form>
     </mat-step>
     <mat-step [stepControl]="outputForm">
     <form [formGroup]="outputForm">
+
       <ng-template matStepLabel>Output</ng-template>
-      <mat-form-field>
-        <input matInput formControlName="symbol" placeholder="Item name" required>
+      <mat-form-field class="mr-3">
+        <input matInput formControlName="symbol" placeholder="Symbol" required>
+      </mat-form-field >
+      <mat-form-field class="mr-3">
+        <input matInput formControlName="description" placeholder="Description">
       </mat-form-field>
       <mat-form-field>
-        <input matInput formControlName="description" placeholder="Item description">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput formControlName="unit" placeholder="Item price">
+        <input matInput formControlName="unit" placeholder="Unit">
       </mat-form-field>
       <div style="text-align: right">
+        <button mat-button matStepperPrevious>Back</button>
         <button mat-button matStepperNext>Next</button>
       </div>
     </form>
@@ -85,7 +93,7 @@
         <mat-form-field>
           <input matInput placeholder="Expression" formControlName="exp" required>
         </mat-form-field>
-        <div>
+        <div style="text-align: right">
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </div>

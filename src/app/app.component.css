@@ -11,7 +11,7 @@
 }
 
 .sidebar-sticky, .sidebar , .row{
-  background-color: #483D8B;
+  background-color: whitesmoke;
 }
 .bg-dark {
   background-color: #1E1F26!important;
@@ -55,14 +55,15 @@ sub {
   opacity: 0.9;
 }
 footer {
-  background-color: #483D8B;
+  background-color: whitesmoke;
+  color: dimgrey;
 }
 
 a {
-  color: white;
+  color: black;
 }
 .active {
-  color:#1E1F26;
+  color:#7458BA;
   opacity: 0.9;
 }
 .my-sm-center {
@@ -79,9 +80,9 @@ a {
   }
 }
 .fast-sidebar {
-  background-color: #483D8B;
+  background-color: whitesmoke;
   box-shadow: 0 0px 5px 0px rgba(0,0,0,0.5);
-  color: white;
+  color: dimgrey;
 }
 .bottom-column
 {

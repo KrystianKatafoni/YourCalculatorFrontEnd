@@ -1,7 +1,7 @@
-@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 body {
-  background-color: #483D8B!important;
+  background-color: whitesmoke!important;
 }
 html, body {
   height: 100%;
@@ -10,5 +10,6 @@ html, body {
 button:focus{outline:none !important;}
 .snackbar-class {
   background-color: #1E1F26;
-  color: white;
+  color:dimgrey;
 }
+
