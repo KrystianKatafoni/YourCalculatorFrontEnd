@@ -15,10 +15,15 @@ export class AddCalculatorComponent implements OnInit {
   inputsForm: FormGroup;
   informationForm: FormGroup;
   outputForm: FormGroup;
+  constForm: FormGroup;
   mathForm: FormGroup;
   inputs: FormArray;
   outputs: FormArray;
-  returnValue: boolean;
+  constList: FormArray;
+  expressions: FormArray;
+  returnValueOutput: boolean;
+  returnValueInput: boolean;
+  returnValueConst: boolean;
   ngOnInit() {
     this.inputsForm = this.formBuilder.group({
       inputs: this.formBuilder.array([this.createItem()], Validators.required)
@@ -27,12 +32,15 @@ export class AddCalculatorComponent implements OnInit {
     this.outputForm = this.formBuilder.group({
       outputs: this.formBuilder.array([this.createItem()], Validators.required)
     });
+    this.constForm = this.formBuilder.group({
+      constList: this.formBuilder.array([this.createItem()], Validators.required)
+    });
     this.informationForm = this.formBuilder.group({
       calcName: ['', Validators.required],
       calcDesc: ['', Validators.required]
     });
     this.mathForm = this.formBuilder.group({
-      exp: ['', Validators.required]
+     expressions: this.formBuilder.array([], Validators.required)
     });
     this.cdRef.detectChanges();
   }
@@ -41,6 +49,15 @@ export class AddCalculatorComponent implements OnInit {
       symbol: [''],
       description: '',
       unit: ['']
+    });
+  }
+  createExpression(symbolIn: string): FormGroup {
+    return this.formBuilder.group( {
+      expression: '',
+      symbol: [{
+        value: symbolIn,
+        disabled: true
+      }]
     });
   }
   addItem(): void {
@@ -59,14 +76,49 @@ export class AddCalculatorComponent implements OnInit {
     this.outputs = this.outputForm.get('outputs') as FormArray;
     this.outputs.removeAt(this.outputs.length - 1);
   }
-  checkSymbol(symbol: string): boolean {
-    this.returnValue = false;
+  addConstItem(): void {
+    this.constList = this.constForm.get('constList') as FormArray;
+    this.constList.push(this.createItem());
+  }
+  removeConstLastItem(): void {
+    this.constList = this.constForm.get('constList') as FormArray;
+    this.constList.removeAt(this.constList.length - 1);
+  }
+  checkOutputSymbols(symbol: string): boolean {
+    this.returnValueOutput = false;
     const arrayControl = this.outputForm.get('outputs') as FormArray;
     arrayControl.controls.forEach((item) => {
       if (item.get('symbol').value === symbol) {
-        this.returnValue = true;
+        this.returnValueOutput = true;
       }
     });
-    return this.returnValue;
+    return this.returnValueOutput;
+  }
+  checkInputSymbols(symbol: string): boolean {
+    this.returnValueInput = false;
+    const arrayControl = this.inputsForm.get('inputs') as FormArray;
+    arrayControl.controls.forEach((item) => {
+      if (item.get('symbol').value === symbol) {
+        this.returnValueInput = true;
+      }
+    });
+    return this.returnValueInput;
+  }
+  checkConstSymbols(symbol: string): boolean {
+    this.returnValueConst = false;
+    const arrayControl = this.constForm.get('constList') as FormArray;
+    arrayControl.controls.forEach((item) => {
+      if (item.get('symbol').value === symbol) {
+        this.returnValueConst = true;
+      }
+    });
+    return this.returnValueConst;
+  }
+  defineAmountOfMathExp() {
+    const arrayControl = this.outputForm.get('outputs') as FormArray;
+    arrayControl.controls.forEach((item) => {
+      this.expressions = this.mathForm.get('expressions') as FormArray;
+      this.expressions.push(this.createExpression(item.get('symbol').value));
+    });
   }
 }
