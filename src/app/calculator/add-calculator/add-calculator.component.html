@@ -42,7 +42,10 @@
                  *ngFor="let input of inputsForm.get('inputs').controls; let i = index;">
               <div [formGroupName]="i">
                 <mat-form-field class="mr-3">
-                <input matInput formControlName="symbol" placeholder="Symbol" required>
+                  <mat-label>Choose symbol</mat-label>
+                  <mat-select formControlName="symbol" placeholder="Symbol" required >
+                    <mat-option *ngFor="let symbol of symbolsInput" [value]="symbol">{{symbol}}</mat-option>
+                  </mat-select>
                 </mat-form-field>
                 <mat-form-field class="mr-3">
                 <input matInput formControlName="description" placeholder="Description" required>
@@ -69,27 +72,46 @@
       </form>
     </mat-step>
     <mat-step [stepControl]="outputForm">
-    <form [formGroup]="outputForm">
-
-      <ng-template matStepLabel>Output</ng-template>
-      <mat-form-field class="mr-3">
-        <input matInput formControlName="symbol" placeholder="Symbol" required>
-      </mat-form-field >
-      <mat-form-field class="mr-3">
-        <input matInput formControlName="description" placeholder="Description">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput formControlName="unit" placeholder="Unit">
-      </mat-form-field>
-      <div style="text-align: right">
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
-      </div>
-    </form>
+      <form [formGroup]="outputForm">
+        <ng-template matStepLabel>Outputs</ng-template>
+        <div class="row">
+          <div class="col">
+            <div formArrayName="outputs"
+                 *ngFor="let output of outputForm.get('outputs').controls; let i = index;">
+              <div [formGroupName]="i">
+                <mat-form-field class="mr-3">
+                  <mat-label>Choose symbol</mat-label>
+                  <mat-select formControlName="symbol" placeholder="Symbol" required >
+                    <mat-option *ngFor="let symbol of symbolsOutput" [value]="symbol" [disabled]="checkSymbol(symbol)">{{symbol}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field class="mr-3">
+                  <input matInput formControlName="description" placeholder="Description" required>
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput formControlName="unit" placeholder="Unit" required>
+                </mat-form-field>
+              </div>
+            </div>
+            <div>
+              <button mat-icon-button (click)="addOutputItem()">
+                <mat-icon>add_circle</mat-icon>
+              </button>
+              <button mat-icon-button (click)="removeOutputLastItem()">
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div style="text-align: right">
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
     </mat-step>
     <mat-step [stepControl]="mathForm">
       <form [formGroup]="mathForm">
-        <ng-template matStepLabel>Define math expression</ng-template>
+        <ng-template matStepLabel>Define math expressions</ng-template>
         <mat-form-field>
           <input matInput placeholder="Expression" formControlName="exp" required>
         </mat-form-field>
