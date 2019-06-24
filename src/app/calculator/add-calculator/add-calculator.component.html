@@ -1,27 +1,27 @@
 <div class="main-background">
-  <mat-horizontal-stepper class="main-background"  #stepper >
+  <mat-horizontal-stepper class="main-background" #stepper (selectionChange)="onStepChange($event)">
 
-    <mat-step [stepControl]="informationForm" >
+    <mat-step [stepControl]="informationForm">
       <form [formGroup]="informationForm">
         <ng-template matStepLabel>Information</ng-template>
         <div class="row mt-3">
           <div class="col">
             <div>
-              <mat-form-field>
+              <mat-form-field style="width: 300px">
                 <input id="calcName" matInput placeholder="Calculator name" formControlName="calcName" required>
-
               </mat-form-field>
-              <div *ngIf="informationForm.get('calcName').invalid && (informationForm.get('calcName').dirty || informationForm.get('calcName').touched)">
+              <div
+                *ngIf="informationForm.get('calcName').invalid && (informationForm.get('calcName').dirty || informationForm.get('calcName').touched)">
                 <div *ngIf="informationForm.get('calcName').errors.required" class="alert alert-danger">
                   Name is required.
                 </div>
               </div>
             </div>
             <div class="mt-2">
-              <mat-form-field>
+              <mat-form-field style="width: 400px">
                 <textarea matInput placeholder="Description" formControlName="calcDesc" required cdkTextareaAutosize
                           #autosize="cdkTextareaAutosize"
-                          cdkAutosizeMinRows="2"
+                          cdkAutosizeMinRows="1"
                           cdkAutosizeMaxRows="5"></textarea>
               </mat-form-field>
             </div>
@@ -40,18 +40,23 @@
             <div formArrayName="constList"
                  *ngFor="let const of constForm.get('constList').controls; let i = index;">
               <div [formGroupName]="i">
-                <mat-form-field class="mr-3">
-                  <mat-label>Choose symbol</mat-label>
-                  <mat-select formControlName="symbol" placeholder="Symbol" required >
-                    <mat-option *ngFor="let symbol of symbolsConst" [value]="symbol" [disabled]="checkConstSymbols(symbol)">{{symbol}}</mat-option>
+                <mat-form-field class="mr-4" style="width: 100px">
+                  <mat-label>Symbol</mat-label>
+                  <mat-select formControlName="symbol" placeholder="Symbol" required>
+                    <mat-option *ngFor="let symbol of symbolsConst" [value]="symbol"
+                                [disabled]="checkConstSymbols(symbol)">{{symbol}}</mat-option>
                   </mat-select>
                 </mat-form-field>
-                <mat-form-field class="mr-3">
-                  <input matInput formControlName="description" placeholder="Description" required>
+                <mat-form-field class="mr-4" style="width: 80px">
+                  <input matInput formControlName="value" placeholder="Value" required>
                 </mat-form-field>
-                <mat-form-field>
+                <mat-form-field class="mr-4" style="width: 80px">
                   <input matInput formControlName="unit" placeholder="Unit" required>
                 </mat-form-field>
+                <mat-form-field style="width: 400px">
+                  <input matInput formControlName="description" placeholder="Description" required>
+                </mat-form-field>
+
               </div>
             </div>
             <div>
@@ -78,18 +83,20 @@
             <div formArrayName="inputs"
                  *ngFor="let input of inputsForm.get('inputs').controls; let i = index;">
               <div [formGroupName]="i">
-                <mat-form-field class="mr-3">
-                  <mat-label>Choose symbol</mat-label>
-                  <mat-select formControlName="symbol" placeholder="Symbol" required >
-                    <mat-option *ngFor="let symbol of symbolsInput" [value]="symbol" [disabled]="checkInputSymbols(symbol)">{{symbol}}</mat-option>
+                <mat-form-field class="mr-4" style="width: 100px">
+                  <mat-label>Symbol</mat-label>
+                  <mat-select formControlName="symbol" placeholder="Symbol" required>
+                    <mat-option *ngFor="let symbol of symbolsInput" [value]="symbol"
+                                [disabled]="checkInputSymbols(symbol)">{{symbol}}</mat-option>
                   </mat-select>
                 </mat-form-field>
-                <mat-form-field class="mr-3">
-                <input matInput formControlName="description" placeholder="Description" required>
+                <mat-form-field style="width: 80px" class="mr-4">
+                  <input matInput formControlName="unit" placeholder="Unit" required>
                 </mat-form-field>
-                  <mat-form-field>
-                <input matInput formControlName="unit" placeholder="Unit" required>
-                  </mat-form-field>
+                <mat-form-field style="width: 400px">
+                  <input matInput formControlName="description" placeholder="Description" required>
+                </mat-form-field>
+
               </div>
             </div>
             <div>
@@ -100,7 +107,7 @@
                 <mat-icon>remove_circle</mat-icon>
               </button>
             </div>
-        </div>
+          </div>
         </div>
         <div style="text-align: right">
           <button mat-button matStepperPrevious>Back</button>
@@ -116,18 +123,20 @@
             <div formArrayName="outputs"
                  *ngFor="let output of outputForm.get('outputs').controls; let i = index;">
               <div [formGroupName]="i">
-                <mat-form-field class="mr-3">
-                  <mat-label>Choose symbol</mat-label>
-                  <mat-select formControlName="symbol" placeholder="Symbol" required >
-                    <mat-option *ngFor="let symbol of symbolsOutput" [value]="symbol" [disabled]="checkOutputSymbols(symbol)">{{symbol}}</mat-option>
+                <mat-form-field class="mr-4" style="width: 100px">
+                  <mat-label>Symbol</mat-label>
+                  <mat-select formControlName="symbol" placeholder="Symbol" required>
+                    <mat-option *ngFor="let symbol of symbolsOutput" [value]="symbol"
+                                [disabled]="checkOutputSymbols(symbol)">{{symbol}}</mat-option>
                   </mat-select>
                 </mat-form-field>
-                <mat-form-field class="mr-3">
-                  <input matInput formControlName="description" placeholder="Description" required>
-                </mat-form-field>
-                <mat-form-field>
+                <mat-form-field class="mr-4" style="width: 80px">
                   <input matInput formControlName="unit" placeholder="Unit" required>
                 </mat-form-field>
+                <mat-form-field style="width: 400px">
+                  <input matInput formControlName="description" placeholder="Description" required>
+                </mat-form-field>
+
               </div>
             </div>
             <div>
@@ -141,36 +150,129 @@
           </div>
         </div>
         <div style="text-align: right">
-          <button mat-button matStepperPrevious >Back</button>
-          <button mat-button matStepperNext (click)="defineAmountOfMathExp()">Next</button>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
         </div>
       </form>
     </mat-step>
 
     <mat-step [stepControl]="mathForm">
-      <form [formGroup]="mathForm">
-        <ng-template matStepLabel>Define math expression</ng-template>
-        <div class="row">
-          <div class="col">
-            <div formArrayName="expressions"
-                 *ngFor="let exp of mathForm.get('expressions').controls; let i = index;">
-              <div [formGroupName]="i">
-                <mat-form-field>
-                  <input matInput formControlName="expression" placeholder="Math expression" required>
-                </mat-form-field>
-                <span class="mr-2 ml-2">=</span>
-                <mat-form-field>
-                  <input matInput formControlName="symbol" placeholder="result">
-                </mat-form-field>
+      <div cdkDropListGroup>
+        <form [formGroup]="mathForm">
+          <ng-template matStepLabel>Define math expression</ng-template>
+          <div class="row">
+            <div class="col-2">
+              <div class="main-font mt-1" style="font-size: 16px">
+                Available constants:
+              </div>
+
+            </div>
+            <div class="col-9">
+              <div class="example-container">
+                <mat-chip-list>
+                <div
+                  cdkDropList
+                  cdkDropListOrientation="horizontal"
+                  #todoList="cdkDropList"
+                  [cdkDropListData]="constChips"
+
+                  class="example-list"
+                  (cdkDropListDropped)="drop($event)">
+
+                  <mat-chip selected="true" class="mr-1" color="primary" *ngFor="let item of constChips"
+                            cdkDrag>{{item}}</mat-chip>
+
+                </div>
+                </mat-chip-list>
               </div>
             </div>
           </div>
-        </div>
-        <div style="text-align: right">
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </div>
-      </form>
+          <div class="row mt-2">
+            <div class="col-2">
+              <div class="main-font mt-1" style="font-size: 16px">
+                Available inputs:
+              </div>
+
+            </div>
+            <div class="col-9">
+              <div class="example-container">
+                <div
+                  cdkDropList
+                  cdkDropListOrientation="horizontal"
+                  #todoList="cdkDropList"
+                  [cdkDropListData]="inputChips"
+
+                  class="example-list"
+                  (cdkDropListDropped)="drop($event)">
+
+                  <mat-chip selected="true" class="mr-1" color="accent" *ngFor="let item of inputChips"
+                            cdkDrag>{{item}}</mat-chip>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-2">
+              <div class="main-font mt-1" style="font-size: 16px">
+                Available operators:
+              </div>
+
+            </div>
+            <div class="col-9">
+              <div class="example-container">
+                <div
+                  cdkDropList
+                  cdkDropListOrientation="horizontal"
+                  #todoList="cdkDropList"
+                  [cdkDropListData]="mathOperators"
+
+                  class="example-list"
+                  (cdkDropListDropped)="drop($event)">
+
+                  <mat-chip class="mr-1"  *ngFor="let item of mathOperators"
+                            cdkDrag>{{item}}</mat-chip>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr/>
+          <div class="row mt-2">
+            <div class="col-2">
+            <div class="main-font mt-1" style="font-size: 16px">
+              Math expressions:
+            </div>
+            </div>
+          </div>
+          <div *ngFor="let exp of mathForm.get('expressions').value; let i=index">
+          <div class="row mt-2">
+            <div class="col">
+              <div class="example-container">
+                <div
+                  cdkDropList
+                  #doneList="cdkDropList"
+                  cdkDropListOrientation="horizontal"
+                  [cdkDropListData]="expressionList[i]"
+                  class="example-list2"
+                  (cdkDropListDropped)="drop($event)">
+                  <span *ngFor="let item of expressionList[i]" cdkDrag class="main-font" style="font-size: 18px">{{item}}</span>
+                </div>
+              </div>
+            </div>
+              <div class="col">
+                <span class=" main-font" style="font-size: 22px">= {{exp['symbol']}}</span>
+              </div>
+
+            </div>
+          </div>
+          <div style="text-align: right">
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </div>
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Done</ng-template>
@@ -181,4 +283,5 @@
       </div>
     </mat-step>
   </mat-horizontal-stepper>
+
 </div>

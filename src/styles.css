@@ -12,4 +12,10 @@ button:focus{outline:none !important;}
   background-color: #1E1F26;
   color:dimgrey;
 }
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active  {
+  -webkit-box-shadow: 0 0 0 30px whitesmoke inset !important;
+}
 

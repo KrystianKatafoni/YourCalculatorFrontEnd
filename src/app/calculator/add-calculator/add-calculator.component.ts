@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {CdkDragDrop, copyArrayItem, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-add-calculator',
@@ -8,9 +9,9 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddCalculatorComponent implements OnInit {
-  symbolsInput = 'iA,iB,iC,iD,iE,iF,iG,iH,iI,iJ,iK,iL,iM,iN,iO,iP,iR,iS,iT,iU,iW,iX,iY,iZ'.split(',');
-  symbolsOutput = 'oA,oB,oC,oD,oE,oF,oG,oH,oI,oJ,oK,oL,oM,oN,oO,oP,oR,oS,oT,oU,oW,oX,oY,oZ'.split(',');
-  symbolsConst = 'cA,cB,cC,cD,cE,cF,cG,cH,cI,cJ,cK,cL,cM,cN,cO,cP,cR,cS,cT,cU,cW,cX,cY,cZ'.split(',');
+  symbolsInput = 'inputA,inputB,inputC,inputD,inputE,inputF,inputG,inputH,inputI,inputJ,inputK,inputL,inputM,inputN,inputO,inputP,inputR,inputS,inputT,inputU,inputW,inputX,inputY,inputZ'.split(',');
+  symbolsOutput = 'outputA,outputB,outputC,outputD,outputE,outputF,outputG,outputH,outputI,outputJ,outputK,outputL,outputM,outputN,outputO,outputP,outputR,outputS,outputT,outputU,outputW,outputX,outputY,outputZ'.split(',');
+  symbolsConst = 'constantA,constantB,constantC,constantD,constantE,constantF,constantG,constantH,constantI,constantJ,constantK,constantL,constantM,constantN,constantO,constantP,constantR,constantS,constantT,constantU,constantW,constantX,constantY,constantZ'.split(',');
   constructor(private formBuilder: FormBuilder, private cdRef: ChangeDetectorRef) {}
   inputsForm: FormGroup;
   informationForm: FormGroup;
@@ -24,6 +25,10 @@ export class AddCalculatorComponent implements OnInit {
   returnValueOutput: boolean;
   returnValueInput: boolean;
   returnValueConst: boolean;
+  expressionList = [];
+  inputChips = [];
+  constChips = [];
+  mathOperators = ['+', '-', '*', '/', '(', ')', '[', ']'];
   ngOnInit() {
     this.inputsForm = this.formBuilder.group({
       inputs: this.formBuilder.array([this.createItem()], Validators.required)
@@ -33,7 +38,7 @@ export class AddCalculatorComponent implements OnInit {
       outputs: this.formBuilder.array([this.createItem()], Validators.required)
     });
     this.constForm = this.formBuilder.group({
-      constList: this.formBuilder.array([this.createItem()], Validators.required)
+      constList: this.formBuilder.array([], Validators.required)
     });
     this.informationForm = this.formBuilder.group({
       calcName: ['', Validators.required],
@@ -51,13 +56,18 @@ export class AddCalculatorComponent implements OnInit {
       unit: ['']
     });
   }
+  createConstItem(): FormGroup {
+    return this.formBuilder.group({
+      symbol: [''],
+      value: '',
+      description: '',
+      unit: ['']
+    });
+  }
   createExpression(symbolIn: string): FormGroup {
     return this.formBuilder.group( {
       expression: '',
-      symbol: [{
-        value: symbolIn,
-        disabled: true
-      }]
+      symbol: symbolIn
     });
   }
   addItem(): void {
@@ -78,7 +88,7 @@ export class AddCalculatorComponent implements OnInit {
   }
   addConstItem(): void {
     this.constList = this.constForm.get('constList') as FormArray;
-    this.constList.push(this.createItem());
+    this.constList.push(this.createConstItem());
   }
   removeConstLastItem(): void {
     this.constList = this.constForm.get('constList') as FormArray;
@@ -115,10 +125,43 @@ export class AddCalculatorComponent implements OnInit {
     return this.returnValueConst;
   }
   defineAmountOfMathExp() {
+
     const arrayControl = this.outputForm.get('outputs') as FormArray;
+    this.expressionList = [];
+    this.expressions = this.mathForm.get('expressions') as FormArray;
+    while (this.expressions.length !== 0) {
+        this.expressions.removeAt(0);
+      }
     arrayControl.controls.forEach((item) => {
-      this.expressions = this.mathForm.get('expressions') as FormArray;
       this.expressions.push(this.createExpression(item.get('symbol').value));
+      this.expressionList.push([]);
     });
+
+  }
+  drop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      copyArrayItem(event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
+    }
+
+  }
+  public onStepChange(event: any): void {
+    if (event.selectedIndex === 4) {
+      this.defineAmountOfMathExp();
+      this.inputChips = [];
+      this.constChips = [];
+      const arrayControl = this.constForm.get('constList') as FormArray;
+      arrayControl.controls.forEach((item) => {
+        this.constChips.push(item.get('symbol').value);
+      });
+      const arrayControl2 = this.inputsForm.get('inputs') as FormArray;
+      arrayControl2.controls.forEach((item) => {
+        this.inputChips.push(item.get('symbol').value);
+      });
+    }
   }
 }

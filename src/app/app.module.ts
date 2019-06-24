@@ -14,6 +14,7 @@ import { SearchComponent } from './search/search.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AddCalculatorComponent } from './calculator/add-calculator/add-calculator.component';
 import { InfoCalculatorComponent } from './calculator/info-calculator/info-calculator.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 
 
@@ -37,6 +38,7 @@ import { InfoCalculatorComponent } from './calculator/info-calculator/info-calcu
     MaterialModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    DragDropModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
