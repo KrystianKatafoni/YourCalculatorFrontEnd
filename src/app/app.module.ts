@@ -15,6 +15,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AddCalculatorComponent } from './calculator/add-calculator/add-calculator.component';
 import { InfoCalculatorComponent } from './calculator/info-calculator/info-calculator.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { VariablesDialogComponent } from './calculator/variables-dialog/variables-dialog.component';
 
 
 
@@ -28,6 +29,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     SearchComponent,
     AddCalculatorComponent,
     InfoCalculatorComponent,
+    VariablesDialogComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -41,6 +44,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     DragDropModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [VariablesDialogComponent]
 })
 export class AppModule { }

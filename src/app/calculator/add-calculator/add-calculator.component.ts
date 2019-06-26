@@ -1,6 +1,9 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CdkDragDrop, copyArrayItem, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {VariablesDialogComponent} from '../variables-dialog/variables-dialog.component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-add-calculator',
@@ -13,7 +16,7 @@ export class AddCalculatorComponent implements OnInit {
   symbolsOutput = 'outputA,outputB,outputC,outputD,outputE,outputF,outputG,outputH,outputI,outputJ,outputK,outputL,outputM,outputN,outputO,outputP,outputR,outputS,outputT,outputU,outputW,outputX,outputY,outputZ'.split(',');
   symbolsConst = 'constantA,constantB,constantC,constantD,constantE,constantF,constantG,constantH,constantI,constantJ,constantK,constantL,constantM,constantN,constantO,constantP,constantR,constantS,constantT,constantU,constantW,constantX,constantY,constantZ'.split(',');
 
-  constructor(private formBuilder: FormBuilder, private cdRef: ChangeDetectorRef) {
+  constructor(private formBuilder: FormBuilder, private cdRef: ChangeDetectorRef, private dialog: MatDialog, private router: Router) {
   }
 
   inputsForm: FormGroup;
@@ -31,11 +34,33 @@ export class AddCalculatorComponent implements OnInit {
   expressionList = [];
   inputChips = [];
   constChips = [];
-  bin = [];
+  outputDialogChips = [];
+  inputDialogChips = [];
+  constDialogChips = [];
   mathOperators = ['+', '-', '*', '/', '(', ')', '[', ']'];
   private toExpressionContainer = false;
   private fromExpressionContainer = false;
+  openDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.hasBackdrop = false;
 
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation = true;
+    dialogConfig.position = {
+      top: '95px',
+      right: '20px'
+    };
+    dialogConfig.data = {
+      inputs: this.inputDialogChips,
+      outputs: this.outputDialogChips,
+      consts: this.constDialogChips
+    };
+    const dialogRef = this.dialog.open(VariablesDialogComponent, dialogConfig);
+    this.router.events
+      .subscribe(() => {
+        dialogRef.close();
+      });
+  }
   ngOnInit() {
     this.inputsForm = this.formBuilder.group({
       inputs: this.formBuilder.array([this.createItem()], Validators.required)
@@ -45,7 +70,7 @@ export class AddCalculatorComponent implements OnInit {
       outputs: this.formBuilder.array([this.createItem()], Validators.required)
     });
     this.constForm = this.formBuilder.group({
-      constList: this.formBuilder.array([], Validators.required)
+      constList: this.formBuilder.array([])
     });
     this.informationForm = this.formBuilder.group({
       calcName: ['', Validators.required],
@@ -193,16 +218,25 @@ export class AddCalculatorComponent implements OnInit {
   public onStepChange(event: any): void {
     if (event.selectedIndex === 4) {
       this.defineAmountOfMathExp();
+      this.openDialog();
       this.inputChips = [];
       this.constChips = [];
       const arrayControl = this.constForm.get('constList') as FormArray;
       arrayControl.controls.forEach((item) => {
         this.constChips.push(item.get('symbol').value);
+        this.constDialogChips.push({symbol: item.get('symbol').value, description: item.get('description').value, value: item.get('value').value});
       });
       const arrayControl2 = this.inputsForm.get('inputs') as FormArray;
       arrayControl2.controls.forEach((item) => {
         this.inputChips.push(item.get('symbol').value);
+        this.inputDialogChips.push({symbol: item.get('symbol').value, description: item.get('description').value});
       });
+      const arrayControl3 = this.outputForm.get('outputs') as FormArray;
+      arrayControl3.controls.forEach((item) => {
+        this.outputDialogChips.push({symbol: item.get('symbol').value, description: item.get('description').value});
+      });
+    } else {
+      this.dialog.closeAll();
     }
   }
 }
