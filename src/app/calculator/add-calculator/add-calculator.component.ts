@@ -4,6 +4,10 @@ import {CdkDragDrop, copyArrayItem, moveItemInArray, transferArrayItem} from '@a
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {VariablesDialogComponent} from '../variables-dialog/variables-dialog.component';
 import {Router} from '@angular/router';
+import * as matjs from 'mathjs';
+import {faThumbsUp} from '@fortawesome/free-solid-svg-icons';
+import {faThumbsDown} from '@fortawesome/free-solid-svg-icons';
+import {CalculatorService} from '../calculator.service';
 
 @Component({
   selector: 'app-add-calculator',
@@ -15,51 +19,34 @@ export class AddCalculatorComponent implements OnInit {
   symbolsInput = 'inputA,inputB,inputC,inputD,inputE,inputF,inputG,inputH,inputI,inputJ,inputK,inputL,inputM,inputN,inputO,inputP,inputR,inputS,inputT,inputU,inputW,inputX,inputY,inputZ'.split(',');
   symbolsOutput = 'outputA,outputB,outputC,outputD,outputE,outputF,outputG,outputH,outputI,outputJ,outputK,outputL,outputM,outputN,outputO,outputP,outputR,outputS,outputT,outputU,outputW,outputX,outputY,outputZ'.split(',');
   symbolsConst = 'constantA,constantB,constantC,constantD,constantE,constantF,constantG,constantH,constantI,constantJ,constantK,constantL,constantM,constantN,constantO,constantP,constantR,constantS,constantT,constantU,constantW,constantX,constantY,constantZ'.split(',');
-
-  constructor(private formBuilder: FormBuilder, private cdRef: ChangeDetectorRef, private dialog: MatDialog, private router: Router) {
-  }
-
+  mathOperators = ['+', '-', '*', '/', '(', ')', '[', ']'];
+  thumbUp = faThumbsUp;
+  thumbDown = faThumbsDown;
   inputsForm: FormGroup;
   informationForm: FormGroup;
   outputForm: FormGroup;
   constForm: FormGroup;
   mathForm: FormGroup;
+  testForm: FormGroup;
   inputs: FormArray;
   outputs: FormArray;
   constList: FormArray;
   expressions: FormArray;
-  returnValueOutput: boolean;
-  returnValueInput: boolean;
-  returnValueConst: boolean;
   expressionList = [];
   inputChips = [];
   constChips = [];
   outputDialogChips = [];
   inputDialogChips = [];
   constDialogChips = [];
-  mathOperators = ['+', '-', '*', '/', '(', ')', '[', ']'];
+  operations = [];
+  returnValueOutput: boolean;
+  returnValueInput: boolean;
+  returnValueConst: boolean;
   private toExpressionContainer = false;
   private fromExpressionContainer = false;
-  openDialog() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.hasBackdrop = false;
+  constructor(private formBuilder: FormBuilder, private cdRef: ChangeDetectorRef, private dialog: MatDialog,
+              private router: Router, private calculatorService: CalculatorService) {
 
-    dialogConfig.autoFocus = true;
-    dialogConfig.closeOnNavigation = true;
-    dialogConfig.position = {
-      top: '95px',
-      right: '20px'
-    };
-    dialogConfig.data = {
-      inputs: this.inputDialogChips,
-      outputs: this.outputDialogChips,
-      consts: this.constDialogChips
-    };
-    const dialogRef = this.dialog.open(VariablesDialogComponent, dialogConfig);
-    this.router.events
-      .subscribe(() => {
-        dialogRef.close();
-      });
   }
   ngOnInit() {
     this.inputsForm = this.formBuilder.group({
@@ -79,9 +66,11 @@ export class AddCalculatorComponent implements OnInit {
     this.mathForm = this.formBuilder.group({
       expressions: this.formBuilder.array([], Validators.required)
     });
+    this.testForm = this.formBuilder.group( {
+      testPass: ['']
+    });
     this.cdRef.detectChanges();
   }
-
   createItem(): FormGroup {
     return this.formBuilder.group({
       symbol: [''],
@@ -89,7 +78,38 @@ export class AddCalculatorComponent implements OnInit {
       unit: ['']
     });
   }
+   arrayToStringConverter(array): string {
+    let exp = '';
+    array.forEach( (value, key) => {
+      exp = exp + value;
+    });
+    return exp;
+  }
+  validateExpression(expression: string): boolean {
+    let result = false;
+    let newExp = expression.slice(0, expression.length);
+    this.inputDialogChips.forEach((input) => {
+      if (newExp.includes(input.symbol)) {
+        newExp = newExp.split(input.symbol).join('1');
 
+      }
+    });
+    this.constDialogChips.forEach((constant) => {
+      if (newExp.includes(constant.symbol)) {
+        newExp = newExp.split(constant.symbol).join(constant.value.toString());
+      }
+    });
+    try {
+      const compileResult = matjs.compile(newExp).eval();
+      console.log(compileResult);
+      result = true;
+
+    } catch (e) {
+      console.log('Compile error');
+      console.log(e);
+    }
+    return result;
+  }
   createConstItem(): FormGroup {
     return this.formBuilder.group({
       symbol: [''],
@@ -168,9 +188,7 @@ export class AddCalculatorComponent implements OnInit {
     });
     return this.returnValueConst;
   }
-
   defineAmountOfMathExp() {
-
     const arrayControl = this.outputForm.get('outputs') as FormArray;
     this.expressionList = [];
     this.expressions = this.mathForm.get('expressions') as FormArray;
@@ -179,20 +197,18 @@ export class AddCalculatorComponent implements OnInit {
     }
     arrayControl.controls.forEach((item) => {
       this.expressions.push(this.createExpression(item.get('symbol').value));
-      this.expressionList.push([]);
+      this.expressionList.push({exp: [], valid: ''});
     });
-
   }
-
-  drop(event: CdkDragDrop<string[]>) {
+  drop(event: CdkDragDrop<string[]>, i: number) {
     this.toExpressionContainer = false;
     this.fromExpressionContainer = false;
     this.expressionList.forEach((value, key) => {
-      if (value === event.container.data) {
+      if (value.exp === event.container.data) {
         this.toExpressionContainer = true;
 
       }
-      if (value === event.previousContainer.data) {
+      if (value.exp === event.previousContainer.data) {
         this.fromExpressionContainer = true;
       }
     });
@@ -211,10 +227,18 @@ export class AddCalculatorComponent implements OnInit {
           event.previousIndex,
           event.currentIndex);
       }
+      const exp = this.arrayToStringConverter(event.container.data);
+      const isValid = this.validateExpression(exp);
+      if (isValid) {
+        this.expressionList[i].valid = 'true';
+        console.log('valid true');
+      } else {
+        this.expressionList[i].valid = 'false';
+        console.log('valid false');
+      }
     }
 
   }
-
   public onStepChange(event: any): void {
     if (event.selectedIndex === 4) {
       this.defineAmountOfMathExp();
@@ -224,19 +248,71 @@ export class AddCalculatorComponent implements OnInit {
       const arrayControl = this.constForm.get('constList') as FormArray;
       arrayControl.controls.forEach((item) => {
         this.constChips.push(item.get('symbol').value);
-        this.constDialogChips.push({symbol: item.get('symbol').value, description: item.get('description').value, value: item.get('value').value});
+        this.constDialogChips.push({symbol: item.get('symbol').value,
+          description: item.get('description').value, value: item.get('value').value, unit: item.get('unit').value});
       });
       const arrayControl2 = this.inputsForm.get('inputs') as FormArray;
       arrayControl2.controls.forEach((item) => {
         this.inputChips.push(item.get('symbol').value);
-        this.inputDialogChips.push({symbol: item.get('symbol').value, description: item.get('description').value});
+        this.inputDialogChips.push({symbol: item.get('symbol').value,
+          description: item.get('description').value, unit: item.get('unit').value});
       });
       const arrayControl3 = this.outputForm.get('outputs') as FormArray;
       arrayControl3.controls.forEach((item) => {
-        this.outputDialogChips.push({symbol: item.get('symbol').value, description: item.get('description').value});
+        this.outputDialogChips.push({symbol: item.get('symbol').value,
+          description: item.get('description').value, unit: item.get('unit').value});
       });
     } else {
       this.dialog.closeAll();
     }
+    if (event.selectedIndex === 5) {
+      this.expressionList.forEach((exp, index) => {
+        const output = this.outputDialogChips[index];
+        const mathExp = this.arrayToStringConverter(exp.exp);
+        const expression = mathExp;
+        console.log('Expression: ' + expression);
+        const inputs = [];
+        const constants = [];
+        this.inputDialogChips.forEach((input) => {
+          if (expression.includes(input.symbol)) {
+            inputs.push(input);
+          }
+        });
+        this.constDialogChips.forEach((constant) => {
+          if (expression.includes(constant.symbol)) {
+            constants.push(constant);
+          }
+        });
+        this.operations.push( {
+          outputVal: output,
+          inputsVal: inputs,
+          constantsVal: constants,
+          mathExpression: expression
+        } );
+      });
+    }
+  }
+  onAcceptance() {
+    this.calculatorService.addCalculator(this.operations);
+  }
+  openDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.hasBackdrop = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation = true;
+    dialogConfig.position = {
+      top: '95px',
+      right: '20px'
+    };
+    dialogConfig.data = {
+      inputs: this.inputDialogChips,
+      outputs: this.outputDialogChips,
+      consts: this.constDialogChips
+    };
+    const dialogRef = this.dialog.open(VariablesDialogComponent, dialogConfig);
+    this.router.events
+      .subscribe(() => {
+        dialogRef.close();
+      });
   }
 }

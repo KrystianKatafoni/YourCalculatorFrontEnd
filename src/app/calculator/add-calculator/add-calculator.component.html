@@ -1,6 +1,6 @@
 <div class="main-background">
 
-  <mat-horizontal-stepper class="main-background"  #stepper (selectionChange)="onStepChange($event)">
+  <mat-horizontal-stepper class="main-background" #stepper (selectionChange)="onStepChange($event)">
 
     <mat-step [stepControl]="informationForm">
       <form [formGroup]="informationForm">
@@ -245,47 +245,79 @@
           <div class="row mt-2">
             <div class="col-2">
               <div class="main-font mt-1" style="font-size: 16px">
-                Math expressions:
+                <b class="">Math expressions:</b>
               </div>
             </div>
           </div>
           <div *ngFor="let exp of mathForm.get('expressions').value; let i=index">
             <div class="row mt-2">
-              <div class="col">
+              <div class="col-7">
                 <div class="example-container">
                   <div
                     cdkDropList
                     #doneList="cdkDropList"
                     cdkDropListOrientation="horizontal"
-                    [cdkDropListData]="expressionList[i]"
+                    [cdkDropListData]="expressionList[i].exp"
                     class="example-list2"
-                    (cdkDropListDropped)="drop($event)">
-                    <i *ngFor="let item of expressionList[i]" cdkDrag class="main-font"
-                          style="font-size: 18px">{{item}}</i>
+                    (cdkDropListDropped)="drop($event, i)"
+                  >
+                    <i *ngFor="let item of expressionList[i].exp" cdkDrag class="main-font"
+                       style="font-size: 18px">{{item}}</i>
                   </div>
                 </div>
               </div>
-              <div class="col">
-                <span class=" main-font" style="font-size: 22px">= {{exp['symbol']}}</span>
+              <div class="col-2 mb-1">
+                <span class=" main-font" style="font-size: 24px">= {{exp['symbol']}}</span>
+
+                <span *ngIf="expressionList[i].valid === 'true'; else notValid" class="ml-3"><fa-icon
+                  style="font-size: 24px; color: green" [icon]="thumbUp"></fa-icon></span>
+                <ng-template #notValid>
+                  <span class="ml-3"><fa-icon style="font-size: 24px; color: red" [icon]="thumbDown"></fa-icon></span>
+                </ng-template>
               </div>
 
             </div>
           </div>
         </div>
 
-          <div class="mt-3" style="text-align: right">
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
-          </div>
+        <div class="mt-5" style="text-align: right">
+
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
 
       </form>
 
+    </mat-step>
+    <mat-step [stepControl]="testForm">
+
+      <form [formGroup]="testForm">
+        <ng-template matStepLabel>Preview and acceptance</ng-template>
+        <p>Calculator name: <b>{{informationForm.get('calcName').value}}</b></p>
+        <p>Calculator description: <b>{{informationForm.get('calcDesc').value}}</b></p>
+        <hr/>
+        <p>Math expressions:</p>
+        <div *ngFor="let operation of operations; let i=index">
+          <div class="row mt-2">
+            <div class="col-7">
+              <div>
+                <u>{{operation['mathExpression']}} = {{operation['outputVal']['symbol']}}</u>
+                <i *ngFor="let con of operation['constantsVal']">, {{con['symbol']}} = {{con['value']}}</i>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="mt-3" style="text-align: right">
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext (click)="onAcceptance()">Accept</button>
+        </div>
+      </form>
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Done</ng-template>
       You are now done.
       <div>
-        <button mat-button matStepperPrevious >Back</button>
         <button mat-button (click)="stepper.reset()">Reset</button>
       </div>
     </mat-step>
