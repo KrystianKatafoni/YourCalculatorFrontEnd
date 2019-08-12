@@ -8,6 +8,7 @@ import * as matjs from 'mathjs';
 import {faThumbsUp} from '@fortawesome/free-solid-svg-icons';
 import {faThumbsDown} from '@fortawesome/free-solid-svg-icons';
 import {CalculatorService} from '../calculator.service';
+import {CalculatorModel} from "../../shared/calculator.model";
 
 @Component({
   selector: 'app-add-calculator',
@@ -293,6 +294,7 @@ export class AddCalculatorComponent implements OnInit {
     }
   }
   onAcceptance() {
+    console.log(this.operations);
     this.calculatorService.addCalculator(this.operations);
   }
   openDialog() {
