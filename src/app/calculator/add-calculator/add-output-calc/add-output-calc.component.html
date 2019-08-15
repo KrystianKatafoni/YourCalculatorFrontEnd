@@ -1,0 +1,36 @@
+<form [formGroup]="outputForm">
+  <ng-template matStepLabel>Outputs</ng-template>
+  <div class="row">
+    <div class="col">
+      <div formArrayName="outputList"
+           *ngFor="let output of outputForm.get('outputList').controls; let i = index;">
+        <div [formGroupName]="i">
+          <mat-form-field  class="mr-4" style="width: 40px">
+            <input matInput formControlName="symbol" placeholder="symbol">
+          </mat-form-field>
+          <mat-form-field class="mr-4" style="width: 120px">
+            <input matInput formControlName="name" placeholder="name" required>
+          </mat-form-field>
+          <mat-form-field style="width: 80px" class="mr-4">
+            <input matInput formControlName="unit" placeholder="unit" required>
+          </mat-form-field>
+          <mat-form-field class="mr-4" style="width: 120px">
+            <input matInput formControlName="description" placeholder="description" required>
+          </mat-form-field>
+        </div>
+      </div>
+      <div>
+        <button mat-icon-button (click)="addItem()">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+        <button mat-icon-button (click)="removeLastItem()">
+          <mat-icon>remove_circle</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div style="text-align: right">
+    <button mat-button matStepperPrevious>Back</button>
+    <button mat-button matStepperNext>Next</button>
+  </div>
+</form>

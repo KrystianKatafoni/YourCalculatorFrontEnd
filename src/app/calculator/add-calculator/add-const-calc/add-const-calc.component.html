@@ -1,0 +1,37 @@
+<form [formGroup]="constForm">
+  <div class="row">
+    <div class="col">
+      <div formArrayName="constList"
+           *ngFor="let const of constForm.get('constList').controls; let i = index;">
+        <div [formGroupName]="i">
+          <mat-form-field  class="mr-4" style="width: 40px">
+            <input matInput formControlName="symbol" placeholder="symbol">
+          </mat-form-field>
+          <mat-form-field class="mr-4" style="width: 120px">
+            <input matInput formControlName="name" placeholder="name" required>
+          </mat-form-field>
+          <mat-form-field class="mr-4" style="width: 80px">
+            <input matInput formControlName="value" placeholder="value" required>
+          </mat-form-field>
+          <mat-form-field class="mr-4" style="width: 80px">
+            <input matInput formControlName="unit" placeholder="unit" required>
+          </mat-form-field>
+
+
+        </div>
+      </div>
+      <div>
+        <button mat-icon-button (click)="addConstItem()">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+        <button mat-icon-button (click)="removeConstLastItem()">
+          <mat-icon>remove_circle</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div style="text-align: right">
+    <button mat-button matStepperPrevious>Back</button>
+    <button mat-button matStepperNext>Next</button>
+  </div>
+</form>

@@ -16,6 +16,13 @@ import { AddCalculatorComponent } from './calculator/add-calculator/add-calculat
 import { InfoCalculatorComponent } from './calculator/info-calculator/info-calculator.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { VariablesDialogComponent } from './calculator/variables-dialog/variables-dialog.component';
+import { AddInfoCalcComponent } from './calculator/add-calculator/add-info-calc/add-info-calc.component';
+import { AddConstCalcComponent } from './calculator/add-calculator/add-const-calc/add-const-calc.component';
+import { AddInputCalcComponent } from './calculator/add-calculator/add-input-calc/add-input-calc.component';
+import { AddOutputCalcComponent } from './calculator/add-calculator/add-output-calc/add-output-calc.component';
+import { AddExpressionCalcComponent } from './calculator/add-calculator/add-expression-calc/add-expression-calc.component';
+import { AddDoneCalcComponent } from './calculator/add-calculator/add-done-calc/add-done-calc.component';
+import { AddAcceptanceCalcComponent } from './calculator/add-calculator/add-acceptance-calc/add-acceptance-calc.component';
 
 
 
@@ -30,6 +37,13 @@ import { VariablesDialogComponent } from './calculator/variables-dialog/variable
     AddCalculatorComponent,
     InfoCalculatorComponent,
     VariablesDialogComponent,
+    AddInfoCalcComponent,
+    AddConstCalcComponent,
+    AddInputCalcComponent,
+    AddOutputCalcComponent,
+    AddExpressionCalcComponent,
+    AddDoneCalcComponent,
+    AddAcceptanceCalcComponent,
 
   ],
   imports: [

@@ -1,7 +1,11 @@
-import {UnitModel} from "./unit.model";
+import {ExpressionModel} from './expression.model';
 
 export class OutputValueModel {
-  name: string;
-  description: string;
-  unit: UnitModel;
+  name = '';
+  symbol = '';
+  description = '';
+  unit = '';
+  expression = '';
+  type = 'output';
+  constructor() {}
 }

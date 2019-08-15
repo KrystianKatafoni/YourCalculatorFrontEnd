@@ -1,0 +1,15 @@
+<div>
+  <p>Calculator name: {{calculator.information.name}}</p>
+  <p>Calculator owner: {{calculator.information.owner}}</p>
+  <p>Calculator description: {{calculator.information.description}}</p>
+  <p>Inputs:</p>
+  <div *ngFor="let input of calculator.inputs">
+    <p>Name: {{input.name}}</p>
+    <p>Description: {{input.description}}</p>
+    <p>Unit: {{input.unit}}</p>
+  </div>
+</div>
+<div class="mt-3" style="text-align: right">
+<button mat-button matStepperPrevious>Back</button>
+<button mat-button matStepperNext (click)="onAcceptance()">Accept</button>
+</div>

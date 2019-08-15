@@ -1,8 +1,10 @@
-import {UnitModel} from "./unit.model";
 
 export class ConstantValueModel {
-  name: string;
-  value: number;
-  description: string;
-  unit: UnitModel;
+  name = '';
+  value = 0.0;
+  symbol = '';
+  unit = '';
+  type = 'const';
+
+  constructor() {}
 }
