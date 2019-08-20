@@ -11,6 +11,7 @@ import {faCopyright} from '@fortawesome/free-solid-svg-icons';
 import {faHeart} from '@fortawesome/free-solid-svg-icons';
 import {faRocket} from '@fortawesome/free-solid-svg-icons/faRocket';
 import {faSortNumericUp} from '@fortawesome/free-solid-svg-icons/faSortNumericUp';
+import {CalculatorStorageService} from "./shared/storage/calculator-storage.service";
 
 @Component({
   selector: 'app-root',
@@ -30,28 +31,6 @@ export class AppComponent {
   sortNumeric = faSortNumericUp;
   title = 'YourCalculatorFrontEnd';
 
-  constructor(private httpClient: HttpClient) {
-  }
-  onSend() {
-    const formula = {
-      expression: 'Math.pow((a+b+c),3)',
-      values: {
-        a: 2.0,
-        b: 3.9,
-        c: 4.56
-      }
-    };
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json'
-      })
-    };
-
-    const httpRequest = new HttpRequest('POST', (environment.baseUrl + '/api/v1/executor'), formula, httpOptions);
-    this.httpClient.request(httpRequest).subscribe(
-      (response) => {
-        console.log(response);
-      }
-    );
+  constructor(private cs: CalculatorStorageService) {
   }
 }

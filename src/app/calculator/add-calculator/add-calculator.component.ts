@@ -8,17 +8,19 @@ import * as matjs from 'mathjs';
 import {faThumbsUp} from '@fortawesome/free-solid-svg-icons';
 import {faThumbsDown} from '@fortawesome/free-solid-svg-icons';
 import {CalculatorService} from '../calculator.service';
-import {CalculatorModel} from '../../shared/calculator.model';
+import {CalculatorModel} from '../../shared/model/calculator.model';
 import {AddInfoCalcService} from './add-info-calc/add-info-calc.service';
 import {AddConstCalcComponent} from './add-const-calc/add-const-calc.component';
 import {AddInfoCalcComponent} from './add-info-calc/add-info-calc.component';
 import {AddInputCalcComponent} from './add-input-calc/add-input-calc.component';
 import {AddOutputCalcComponent} from './add-output-calc/add-output-calc.component';
 import {AddExpressionCalcComponent} from './add-expression-calc/add-expression-calc.component';
-import {ConstantValueModel} from "../../shared/constantValue.model";
-import {InputValueModel} from "../../shared/inputValue.model";
-import {OutputValueModel} from "../../shared/outputValue.model";
-import {CalculatorInfoModel} from "../../shared/calculator-info.model";
+import {ConstantValueModel} from '../../shared/model/constantValue.model';
+import {InputValueModel} from '../../shared/model/inputValue.model';
+import {OutputValueModel} from '../../shared/model/outputValue.model';
+import {CalculatorInfoModel} from '../../shared/model/calculator-info.model';
+import {CalculatorStorageService} from "../../shared/storage/calculator-storage.service";
+import {AddDoneCalcComponent} from "./add-done-calc/add-done-calc.component";
 
 @Component({
   selector: 'app-add-calculator',
@@ -33,7 +35,9 @@ export class AddCalculatorComponent implements OnInit {
   @ViewChild(AddInputCalcComponent) addInputCalcComponent: AddInputCalcComponent;
   @ViewChild(AddOutputCalcComponent) addOutputCalcComponent: AddOutputCalcComponent;
   @ViewChild(AddExpressionCalcComponent) addExpressionCalcComponent: AddExpressionCalcComponent;
+  @ViewChild(AddDoneCalcComponent) addDoneCalcComponent: AddDoneCalcComponent;
   expressions: FormArray;
+  lastKey = '';
   get formConstCalc() {
     return this.addConstCalcComponent ? this.addConstCalcComponent.constForm : null;
   }
@@ -50,7 +54,7 @@ export class AddCalculatorComponent implements OnInit {
     return this.addExpressionCalcComponent ? this.addExpressionCalcComponent.expressionForm : null;
   }
   constructor(private cdRef: ChangeDetectorRef, private calculatorService: CalculatorService,
-              private addInfoCalcService: AddInfoCalcService, private fb: FormBuilder) {
+              private addInfoCalcService: AddInfoCalcService, private fb: FormBuilder, private cs: CalculatorStorageService) {
     this.calculator = new CalculatorModel();
   }
 
@@ -83,6 +87,12 @@ export class AddCalculatorComponent implements OnInit {
         this.prepareCalculatorModel();
         break;
       }
+      case 6: {
+        break;
+      }
+      case 7: {
+        break;
+      }
       default: {
         // statements;
         break;
@@ -94,6 +104,7 @@ export class AddCalculatorComponent implements OnInit {
     info.name = this.formInfoCalc.get('calcName').value;
     info.description = this.formInfoCalc.get('calcDesc').value;
     info.owner = this.formInfoCalc.get('owner').value;
+    info.category = this.formInfoCalc.get('category').value;
     this.calculator.information = info;
   }
   createConstObjects() {
@@ -101,9 +112,10 @@ export class AddCalculatorComponent implements OnInit {
     const constArray = this.formConstCalc.get('constList') as FormArray;
     constArray.controls.forEach((item) => {
       const constValueModel = new ConstantValueModel();
-      constValueModel.name = item.get('name').value;
+      constValueModel.name = item.get('value').value;
       constValueModel.value = item.get('value').value;
       constValueModel.symbol = item.get('symbol').value;
+      constValueModel.description = item.get('description').value;
       constValueModel.unit = item.get('unit').value;
       this.calculator.constants.push(constValueModel);
     });
@@ -139,7 +151,7 @@ export class AddCalculatorComponent implements OnInit {
     }
     this.calculator.outputs.forEach((item) => {
       this.expressions.push(this.addExpressionCalcComponent.createExpression(item.name, item.symbol));
-      this.addExpressionCalcComponent.preparedExpressions.push({exp: [], valid: '', symbol: item.symbol});
+      this.addExpressionCalcComponent.preparedExpressions.push({exp: [], valid: false, symbol: item.symbol});
     });
   }
   prepareCalculatorModel() {
@@ -151,6 +163,8 @@ export class AddCalculatorComponent implements OnInit {
       });
     });
   }
-
+  assignNewKey(key) {
+    this.lastKey = key;
+  }
 }
 

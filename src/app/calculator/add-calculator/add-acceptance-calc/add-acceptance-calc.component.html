@@ -1,15 +1,37 @@
 <div>
-  <p>Calculator name: {{calculator.information.name}}</p>
-  <p>Calculator owner: {{calculator.information.owner}}</p>
-  <p>Calculator description: {{calculator.information.description}}</p>
-  <p>Inputs:</p>
-  <div *ngFor="let input of calculator.inputs">
-    <p>Name: {{input.name}}</p>
-    <p>Description: {{input.description}}</p>
-    <p>Unit: {{input.unit}}</p>
+  <div class="row">
+    <div class="col">
+      <mat-card [style.backgroundColor]="'whitesmoke'" class="mt-4 main-font " >
+        <mat-card-header>
+          <mat-card-title><span><fa-icon style="font-size: 24px; color: black" [icon]="info"></fa-icon></span><span
+            class="ml-2" style="color:grey">Calculator Information</span></mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p><b>Calculator name:</b> {{calculator.information.name}}</p>
+          <p><b>Calculator owner:</b> {{calculator.information.owner}}</p>
+          <p><b>Calculator description:</b> {{calculator.information.description}}</p>
+          <p><b>Calculator inputs:</b>
+          <mat-chip-list style="display: inline-block" class="ml-2">
+            <mat-chip color="accent" selected="true" *ngFor="let input of calculator.inputs">{{input.name}}</mat-chip>
+          </mat-chip-list>
+          </p>
+          <p><b>Calculator constants:</b>
+            <mat-chip-list style="display: inline-block" class="ml-2">
+              <mat-chip color="primary" selected="true" *ngFor="let constant of calculator.constants">{{constant.name}}</mat-chip>
+            </mat-chip-list>
+          </p>
+          <p><b>Calculator outputs and expressions:</b>
+            <mat-chip-list>
+              <mat-chip color="warn" style = "display: block" selected="true" *ngFor="let output of calculator.outputs">Output: {{output.name}}, Exp: {{output.getExpressionAsString()}}</mat-chip>
+            </mat-chip-list>
+          </p>
+
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 </div>
 <div class="mt-3" style="text-align: right">
-<button mat-button matStepperPrevious>Back</button>
-<button mat-button matStepperNext (click)="onAcceptance()">Accept</button>
+  <button mat-button matStepperPrevious>Back</button>
+  <button mat-button matStepperNext (click)="onAcceptance()">Accept</button>
 </div>

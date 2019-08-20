@@ -4,20 +4,22 @@ import {CdkDragDrop, copyArrayItem, moveItemInArray} from '@angular/cdk/drag-dro
 import {faThumbsUp} from '@fortawesome/free-solid-svg-icons';
 import {faThumbsDown} from '@fortawesome/free-solid-svg-icons';
 import {AddCalculatorComponent} from '../add-calculator.component';
-import {CalculatorModel} from '../../../shared/calculator.model';
-import * as matjs from "mathjs";
+import {CalculatorModel} from '../../../shared/model/calculator.model';
+import * as matjs from 'mathjs';
+
 @Component({
   selector: 'app-add-expression-calc',
   templateUrl: './add-expression-calc.component.html',
   styleUrls: ['./add-expression-calc.component.css']
 })
 export class AddExpressionCalcComponent implements OnInit {
-  mathOperators = [{name: '+', type: 'operator'}, {name: '-', type: 'operator'}, {name: '*', type: 'operator'},
-    {name: '/', type: 'operator'}, {name: '(', type: 'operator'}, {name:  ')', type: 'operator'},
-    {name:  '[', type: 'operator'}, {name:  ']', type: 'operator'}];
+  mathOperators = [{name: ' + ', symbol: ' + ', type: 'operator'}, {name: '-', symbol: '-', type: 'operator'}, {name: '*', symbol: '*', type: 'operator'},
+    {name: '/', symbol: '/', type: 'operator'}, {name: '(', symbol: '(', type: 'operator'}, {name:  ')', symbol: ')', type: 'operator'},
+    {name:  '[', symbol: '[', type: 'operator'}, {name:  ']', symbol: ']', type: 'operator'}];
   expressionForm: FormGroup;
   expressionList: FormArray;
   preparedExpressions = [];
+  expressionsValid = false;
   thumbUp = faThumbsUp;
   thumbDown = faThumbsDown;
   private toExpressionContainer = false;
@@ -36,8 +38,13 @@ export class AddExpressionCalcComponent implements OnInit {
   }
   arrayToStringConverter(array): string {
     let exp = '';
+
     array.forEach( (value, key) => {
-      exp = exp + value.name;
+      if (value.type === 'input' || value.type === 'operator') {
+        exp = exp + value.symbol;
+    } else if (value.type === 'const') {
+        exp = exp + value.name;
+      }
     });
     return exp;
   }
@@ -48,7 +55,7 @@ export class AddExpressionCalcComponent implements OnInit {
       name: nameIn
     });
   }
-  drop(event: CdkDragDrop<string[]>, i: number) {
+  drop(event, i: number) {
     this.toExpressionContainer = false;
     this.fromExpressionContainer = false;
     this.preparedExpressions.forEach((value, key) => {
@@ -75,41 +82,60 @@ export class AddExpressionCalcComponent implements OnInit {
           event.previousIndex,
           event.currentIndex);
       }
+      console.log('event container: ')
+      console.log(event.container.data)
       const exp = this.arrayToStringConverter(event.container.data);
-      const isValid = this.validateExpression(exp);
-      if (isValid) {
-        this.preparedExpressions[i].valid = 'true';
+      const isValid = this.validateExpressionString(exp);
+      const isValidObject = this.validateExpressionObjects(event.container.data)
+      if (isValid && isValidObject) {
+        this.preparedExpressions[i].valid = true;
         console.log('valid true');
       } else {
-        this.preparedExpressions[i].valid = 'false';
+        this.preparedExpressions[i].valid = false;
         console.log('valid false');
       }
     }
-
+    let valid = true;
+    this.preparedExpressions.forEach((item) => {
+        valid = item.valid && valid;
+    });
+    console.log('valid' + valid);
+    this.expressionsValid = valid;
   }
-  validateExpression(expression: string): boolean {
+  validateExpressionObjects(expression): boolean {
+    let valid = true;
+    let lastItemType = '';
+    expression.forEach((item) => {
+      if ((item.type === 'const' || item.type === 'input') && (lastItemType === 'const' || lastItemType === 'input')) {
+        valid = false;
+      } else {
+        lastItemType = item.type;
+      }
+    });
+    return valid;
+  }
+  validateExpressionString(expression: string): boolean {
+    console.log('exp: ' + expression);
     let result = false;
     let newExp = expression.slice(0, expression.length);
     this.calculator.inputs.forEach((input) => {
-      if (newExp.includes(input.name)) {
-        newExp = newExp.split(input.name).join('1');
+      if (newExp.includes(input.symbol)) {
+        newExp = newExp.split(input.symbol).join('1');
 
-      }
-    });
-    this.calculator.constants.forEach((constant) => {
-      if (newExp.includes(constant.name)) {
-        newExp = newExp.split(constant.name).join(constant.value.toString());
       }
     });
     console.log(newExp);
     try {
-      const compileResult = matjs.compile(newExp).eval();
+      const compileResult = matjs.compile(newExp);
       console.log(compileResult);
       result = true;
 
     } catch (e) {
       console.log('Compile error');
       console.log(e);
+    }
+    if (expression.length === 0) {
+      result = false;
     }
     return result;
   }

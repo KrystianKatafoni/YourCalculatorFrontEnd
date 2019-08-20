@@ -1,0 +1,22 @@
+<div class="row main-div main-font main-background">
+
+  <div class="col">
+    <mat-card  class="main-font">
+      <mat-card-header >
+        <mat-card-title>
+          <h4 class="calculator-header"><fa-icon class="mr-3" [icon]="calculator"></fa-icon>Calculator id: <i style="color:lightslategray">{{calculatorWithId.key}}</i></h4>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="ml-3">
+          <p><b>Name:</b> {{calculatorWithId.data.information.name}}</p>
+          <p><b>Owner:</b> {{calculatorWithId.data.information.owner}}</p>
+          <p><b>Description:</b> {{calculatorWithId.data.information.description}}</p>
+          <p><b>Category:</b> {{calculatorWithId.data.information.category}}</p>
+          <p *ngFor="let output of calculatorWithId.data.outputs"><i *ngFor="let item of output.expression">{{item.name}}</i> = {{output.name}}</p>
+
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

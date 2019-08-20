@@ -4,6 +4,6 @@ export class InputValueModel {
   symbol = '';
   unit = '';
   description = '';
-  type='input';
+  type= 'input';
   constructor() {}
 }

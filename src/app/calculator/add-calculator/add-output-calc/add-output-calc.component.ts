@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UnitCategoryModel} from "../../../shared/model/unitCategory.model";
+import {UnitStorageService} from "../../../shared/storage/unit-storage.service";
 
 @Component({
   selector: 'app-add-output-calc',
@@ -10,8 +12,13 @@ export class AddOutputCalcComponent implements OnInit {
   outputForm: FormGroup;
   outputList: FormArray;
   symbolsOutput = 'a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,r,s,t,u,w,x,y,z'.split(',');
-  constructor(private fb: FormBuilder) { }
-
+  units: Array<UnitCategoryModel>;
+  constructor(private fb: FormBuilder, private us: UnitStorageService) {
+    this.units = us.getUnits();
+  }
+  getOutputList(): FormArray {
+    return this.outputForm.get('outputList') as FormArray;
+  }
   ngOnInit() {
     this.outputForm = this.fb.group({
       outputList: this.fb.array([this.createItem()], Validators.required)

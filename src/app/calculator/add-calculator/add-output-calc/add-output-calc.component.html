@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col">
       <div formArrayName="outputList"
-           *ngFor="let output of outputForm.get('outputList').controls; let i = index;">
+           *ngFor="let output of getOutputList().controls; let i = index;">
         <div [formGroupName]="i">
           <mat-form-field  class="mr-4" style="width: 40px">
             <input matInput formControlName="symbol" placeholder="symbol">
@@ -11,12 +11,21 @@
           <mat-form-field class="mr-4" style="width: 120px">
             <input matInput formControlName="name" placeholder="name" required>
           </mat-form-field>
-          <mat-form-field style="width: 80px" class="mr-4">
-            <input matInput formControlName="unit" placeholder="unit" required>
-          </mat-form-field>
           <mat-form-field class="mr-4" style="width: 120px">
-            <input matInput formControlName="description" placeholder="description" required>
+            <input matInput formControlName="description" placeholder="description">
           </mat-form-field>
+          <mat-form-field class="mr-4" style="width: 80px">
+            <mat-label>unit</mat-label>
+            <mat-select formControlName="unit" placeholder="unit">
+              <mat-option>-- None --</mat-option>
+              <mat-optgroup *ngFor="let unitCategory of units" [label]="unitCategory.categoryName">
+                <mat-option *ngFor="let unitVal of unitCategory.units| async"  [value]="unitVal.name" >
+                  {{unitVal.name}}
+                </mat-option>
+              </mat-optgroup>
+            </mat-select>
+          </mat-form-field>
+
         </div>
       </div>
       <div>

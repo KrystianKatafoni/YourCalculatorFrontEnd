@@ -23,11 +23,11 @@
     </mat-step>
     <mat-step >
       <ng-template matStepLabel>Acceptance</ng-template>
-      <app-add-acceptance-calc [calculator]="calculator"></app-add-acceptance-calc>
+      <app-add-acceptance-calc [calculator]="calculator" (newKey)="assignNewKey($event)"></app-add-acceptance-calc>
     </mat-step>
     <mat-step >
       <ng-template matStepLabel>Done</ng-template>
-      <app-add-done-calc [calculator]="calculator" [stepper]="stepper"></app-add-done-calc>
+      <app-add-done-calc [calculator]="calculator" [stepper]="stepper" [key]="lastKey"></app-add-done-calc>
     </mat-step>
 
   </mat-horizontal-stepper>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Calculator} from '@angular-devkit/build-angular/src/angular-cli-files/utilities/bundle-calculator';
 import {Subject} from 'rxjs';
-import {CalculatorStorageService} from '../shared/calculator-storage.service';
+import {CalculatorStorageService} from '../shared/storage/calculator-storage.service';
 
 @Injectable({
   providedIn: 'root'

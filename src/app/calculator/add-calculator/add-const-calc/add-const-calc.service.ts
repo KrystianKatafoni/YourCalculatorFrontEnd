@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {CalculatorInfoModel} from "../../../shared/calculator-info.model";
-import {ConstantValueModel} from "../../../shared/constantValue.model";
+import {CalculatorInfoModel} from "../../../shared/model/calculator-info.model";
+import {ConstantValueModel} from "../../../shared/model/constantValue.model";
 
 @Injectable({
   providedIn: 'root'

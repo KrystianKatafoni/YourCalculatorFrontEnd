@@ -23,9 +23,13 @@ import { AddOutputCalcComponent } from './calculator/add-calculator/add-output-c
 import { AddExpressionCalcComponent } from './calculator/add-calculator/add-expression-calc/add-expression-calc.component';
 import { AddDoneCalcComponent } from './calculator/add-calculator/add-done-calc/add-done-calc.component';
 import { AddAcceptanceCalcComponent } from './calculator/add-calculator/add-acceptance-calc/add-acceptance-calc.component';
-
-
-
+import {AngularFireModule} from 'angularfire2';
+import {AngularFireDatabaseModule} from 'angularfire2/database';
+import { environment } from '../environments/environment';
+import { ViewComponent } from './view/view.component';
+import {CalculatorStorageService} from "./shared/storage/calculator-storage.service";
+import {CategoryStorageService} from "./shared/storage/category-storage.service";
+import {ViewResolver} from "./view/view.resolver";
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +48,7 @@ import { AddAcceptanceCalcComponent } from './calculator/add-calculator/add-acce
     AddExpressionCalcComponent,
     AddDoneCalcComponent,
     AddAcceptanceCalcComponent,
+    ViewComponent,
 
   ],
   imports: [
@@ -56,9 +61,12 @@ import { AddAcceptanceCalcComponent } from './calculator/add-calculator/add-acce
     AppRoutingModule,
     ReactiveFormsModule,
     DragDropModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig, 'yourcalculator-online'),
+    AngularFireDatabaseModule
   ],
-  providers: [],
+  providers: [ViewResolver],
   bootstrap: [AppComponent],
   entryComponents: [VariablesDialogComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

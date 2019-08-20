@@ -5,6 +5,9 @@
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
 }
-::ng-deep .mat-horizontal-stepper-header{
-  pointer-events: none !important;
+.main-div{
+  margin-top: 100px;
+}
+mat-card {
+  background-color: whitesmoke;
 }

@@ -18,7 +18,7 @@
               #todoList="cdkDropList"
               [cdkDropListData]="calculatorModel.constants"
               class="example-list"
-              (cdkDropListDropped)="drop($event)">
+              (cdkDropListDropped)="drop($event,0)">
               <mat-chip selected="true" class="mr-1" color="primary" *ngFor="let item of calculatorModel.constants"
                         cdkDrag>{{item.name}}</mat-chip>
             </div>
@@ -42,7 +42,7 @@
             [cdkDropListData]="calculatorModel.inputs"
 
             class="example-list"
-            (cdkDropListDropped)="drop($event)">
+            (cdkDropListDropped)="drop($event,0)">
 
             <mat-chip selected="true" class="mr-1" color="accent" *ngFor="let item of calculatorModel.inputs"
                       cdkDrag>{{item.name}}</mat-chip>
@@ -65,7 +65,7 @@
             [cdkDropListData]="mathOperators"
 
             class="example-list"
-            (cdkDropListDropped)="drop($event)">
+            (cdkDropListDropped)="drop($event,0)">
 
             <mat-chip class="mr-1" *ngFor="let item of mathOperators"
                       cdkDrag>{{item['name']}}</mat-chip>
@@ -101,7 +101,7 @@
         <div class="col-2 mb-1">
           <span class=" main-font" style="font-size: 24px">= {{exp['symbol']}}</span>
 
-          <span *ngIf="preparedExpressions[i].valid === 'true'; else notValid" class="ml-3"><fa-icon
+          <span *ngIf="preparedExpressions[i].valid == true; else notValid" class="ml-3"><fa-icon
             style="font-size: 24px; color: green" [icon]="thumbUp"></fa-icon></span>
           <ng-template #notValid>
             <span class="ml-3"><fa-icon style="font-size: 24px; color: red" [icon]="thumbDown"></fa-icon></span>
@@ -115,7 +115,7 @@
   <div class="mt-5" style="text-align: right">
 
     <button mat-button matStepperPrevious>Back</button>
-    <button mat-button matStepperNext>Accept</button>
+    <button mat-button matStepperNext [disabled]="!expressionsValid">Next</button>
   </div>
 
 </form>

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UnitStorageService} from "../../../shared/storage/unit-storage.service";
+import {UnitCategoryModel} from "../../../shared/model/unitCategory.model";
 
 @Component({
   selector: 'app-add-input-calc',
@@ -9,8 +11,15 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 export class AddInputCalcComponent implements OnInit {
   inputForm: FormGroup;
   inputList: FormArray;
+
+  units: Array<UnitCategoryModel>;
   symbolsInput = 'a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,r,s,t,u,w,x,y,z'.split(',');
-  constructor(private fb: FormBuilder) { }
+  getInputList(): FormArray {
+    return this.inputForm.get('inputList') as FormArray;
+  }
+  constructor(private fb: FormBuilder, private us: UnitStorageService) {
+    this.units = us.getUnits();
+  }
 
   ngOnInit() {
     this.inputForm = this.fb.group({
