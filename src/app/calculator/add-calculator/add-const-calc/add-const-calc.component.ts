@@ -61,7 +61,7 @@ export class AddConstCalcComponent implements OnInit {
       symbol: {value: this.assignSymbol(), disabled: true},
       value: '',
       description: '',
-      unit: ['']
+      unit: ''
     });
   }
   addConstItem(): void {

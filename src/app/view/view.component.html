@@ -13,7 +13,33 @@
           <p><b>Owner:</b> {{calculatorWithId.data.information.owner}}</p>
           <p><b>Description:</b> {{calculatorWithId.data.information.description}}</p>
           <p><b>Category:</b> {{calculatorWithId.data.information.category}}</p>
-          <p *ngFor="let output of calculatorWithId.data.outputs"><i *ngFor="let item of output.expression">{{item.name}}</i> = {{output.name}}</p>
+          <div class="mt-4">
+            <b style="font-size: 20px">Expressions</b>
+            <mat-slide-toggle
+              class="ml-2"
+              color="primary"
+              [checked]="isTogetherMode"
+            matTooltip="Together Mode">
+          </mat-slide-toggle>
+          </div>
+          <p *ngFor="let output of calculatorWithId.data.outputs">
+            <span *ngFor="let item of output.expression">
+              <span [ngSwitch]="item.type">
+                <span *ngSwitchCase= "'input'">
+                  <mat-form-field  class="ml-1" style="width: 30px">
+                    <input matInput matTooltip="{{item.description}}" [(ngModel)]="item.value" [placeholder]="item.name" >
+                  </mat-form-field>
+                  <i *ngIf="item.unit !==''"> [{{item.unit}}] </i>
+                </span>
+              <i *ngSwitchCase="'operator'"> {{item.name}} </i>
+               <i *ngSwitchCase="'const'" matTooltip="{{item.description}}"> {{item.name}}  <i *ngIf="item.unit !==''"> [{{item.unit}}] </i></i>
+            </span>
+            </span>
+            <span class="ml-2" matTooltip="{{output.description}}"> = {{output.name}}</span>
+            <i *ngIf="output.unit !==''"> [{{output.unit}}] </i>
+            <button class = "ml-3" mat-stroked-button color="primary" (click)="evaluateOutput(output)">Evaluate</button>
+            <span class="ml-3" style="font-size: 16px" *ngIf="output.value !== ''"><b>Result: </b>{{output.value}}</span>
+          </p>
 
         </div>
       </mat-card-content>

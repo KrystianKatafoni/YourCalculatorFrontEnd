@@ -7,6 +7,7 @@ export class OutputValueModel {
   unit = '';
   expression = [];
   type = 'output';
+  value = '';
   constructor() {}
   getExpressionAsString(): string {
     let expressionStr = '';
@@ -15,4 +16,5 @@ export class OutputValueModel {
     });
     return  expressionStr;
   }
+
 }
