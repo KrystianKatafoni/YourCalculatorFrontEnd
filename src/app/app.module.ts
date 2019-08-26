@@ -30,6 +30,8 @@ import { ViewComponent } from './view/view.component';
 import {CalculatorStorageService} from "./shared/storage/calculator-storage.service";
 import {CategoryStorageService} from "./shared/storage/category-storage.service";
 import {ViewResolver} from "./view/view.resolver";
+import { SnackBarComponent } from './shared/snack-bar/snack-bar.component';
+import {SearchResolver} from "./search/search.resolver";
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +51,7 @@ import {ViewResolver} from "./view/view.resolver";
     AddDoneCalcComponent,
     AddAcceptanceCalcComponent,
     ViewComponent,
+    SnackBarComponent,
 
   ],
   imports: [
@@ -64,9 +67,9 @@ import {ViewResolver} from "./view/view.resolver";
     AngularFireModule.initializeApp(environment.firebaseConfig, 'yourcalculator-online'),
     AngularFireDatabaseModule
   ],
-  providers: [ViewResolver],
+  providers: [ViewResolver, SearchResolver],
   bootstrap: [AppComponent],
-  entryComponents: [VariablesDialogComponent]
+  entryComponents: [VariablesDialogComponent, SnackBarComponent]
 })
 export class AppModule {
 }

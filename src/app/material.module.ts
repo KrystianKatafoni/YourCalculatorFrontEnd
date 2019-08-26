@@ -12,8 +12,13 @@ import {
   MatCardModule,
   MatChipsModule, MatStepperModule,
   MatListModule, MatSelectModule,
-  MatTooltipModule, MatTableModule, MatSlideToggleModule
+  MatTooltipModule, MatTableModule,
+  MatSlideToggleModule, MatSortModule,
+  MatPaginatorModule, MatProgressSpinnerModule
 } from '@angular/material';
+import {FlexLayoutModule} from "@angular/flex-layout";
+
+
 
 @NgModule({
   imports: [MatButtonModule, MatIconModule,
@@ -24,7 +29,9 @@ import {
     MatChipsModule, MatStepperModule,
     MatListModule, MatSelectModule,
     MatTooltipModule, MatTableModule,
-    MatSlideToggleModule
+    MatSlideToggleModule, MatSnackBarModule,
+    MatSortModule, FlexLayoutModule,
+    MatPaginatorModule, MatProgressSpinnerModule
   ],
   exports: [MatButtonModule, MatIconModule,
     MatFormFieldModule, MatInputModule,
@@ -34,7 +41,9 @@ import {
     MatChipsModule, MatStepperModule,
     MatListModule, MatSelectModule,
     MatTooltipModule, MatTableModule,
-    MatSlideToggleModule
+    MatSlideToggleModule, MatSnackBarModule,
+    MatSortModule, FlexLayoutModule,
+    MatPaginatorModule, MatProgressSpinnerModule
   ]
 })
 export class MaterialModule {

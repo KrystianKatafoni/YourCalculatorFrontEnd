@@ -1,0 +1,22 @@
+
+.main-background{
+  background-color: whitesmoke;
+}
+.main-font {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+}
+.main-div{
+  margin-top: 100px;
+}
+table {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-width: 500px;
+}
+
+th.mat-header-cell {
+  text-align: left;
+  max-width: 300px;
+}

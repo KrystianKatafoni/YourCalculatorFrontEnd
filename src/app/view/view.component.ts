@@ -7,6 +7,9 @@ import {Observable} from "rxjs";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {OutputValueModel} from "../shared/model/outputValue.model";
 import * as matjs from "mathjs";
+import {MatSnackBar} from '@angular/material';
+import {SnackBarComponent} from "../shared/snack-bar/snack-bar.component";
+
 @Component({
   selector: 'app-view',
   templateUrl: './view.component.html',
@@ -18,21 +21,23 @@ export class ViewComponent implements OnInit, OnDestroy {
   calculator = faCalculator;
   private sub: any;
   isTogetherMode = false;
-  calculatorWithId: {key: string, data: CalculatorModel};
-  constructor(private route: ActivatedRoute, private fb: FormBuilder) {
+  calculatorWithId: { key: string, data: CalculatorModel };
+
+  constructor(private route: ActivatedRoute, private fb: FormBuilder, private snackBar: MatSnackBar) {
 
   }
 
   ngOnInit() {
     let id;
-    const con: {key: string, data: CalculatorModel}[] = this.route.snapshot.data.calculator;
+    const con: { key: string, data: CalculatorModel }[] = this.route.snapshot.data.calculator;
     this.route.params.subscribe(
       (params) => {
-        id = params['id'];
+        id = params.id;
       });
     this.calculatorWithId = con.filter(item => item.key === id)[0];
 
   }
+
   evaluateOutput(output: OutputValueModel) {
     const exp = this.arrayToStringConverter(output.expression);
     let compileResult;
@@ -48,9 +53,33 @@ export class ViewComponent implements OnInit, OnDestroy {
     output.value = compileResult;
   }
 
+  evaluateTogether() {
+    this.calculatorWithId.data.inputs.forEach( input => {
+      this.calculatorWithId.data.outputs.forEach(output => {
+        output.expression.forEach( item => {
+          if ( item.type === 'input') {
+            if ( item.symbol === input.symbol) {
+              item.value = input.value;
+            }
+          }
+        });
+      });
+    })
+    this.calculatorWithId.data.outputs.forEach( item => {
+      const exp = this.arrayToStringConverter(item.expression);
+      console.log(exp);
+      try {
+      item.value = matjs.eval(exp);
+      } catch (e) {
+        console.log('Compile error');
+        console.log(e);
+      }
+    });
+  }
+
   arrayToStringConverter(array): string {
     let exp = '';
-    array.forEach( (value, key) => {
+    array.forEach((value, key) => {
       if (value.type === 'input') {
         exp = exp + value.value;
       } else if (value.type === 'const') {
@@ -61,6 +90,19 @@ export class ViewComponent implements OnInit, OnDestroy {
     });
     return exp;
   }
+
+  openSnackBar() {
+    if (this.isTogetherMode) {
+      this.snackBar.open('Together mode', 'change', {
+        duration: 2 * 1000,
+      });
+    } else {
+      this.snackBar.open('Individual mode', 'change', {
+        duration: 2 * 1000,
+      });
+    }
+  }
+
   ngOnDestroy(): void {
 
   }
